@@ -1,0 +1,14 @@
+<div class="row pt-4">
+    <div class="col ">
+      <button class="btn btn-secondary  btn-sm" style="margin-right: 5px;" (click)="onTagSelected('all')">Show All</button>
+      <button class="btn btn-secondary  btn-sm" style="margin-right: 5px;" (click)="onTagSelected('completed')">Show Completed</button>
+    </div>
+  </div>
+  <div class="row pt-4">
+    <div *ngIf="allTags" class="col ">
+      <ng-container *ngFor="let tag of allTags.keys()">
+        <button (click)="onTagSelected(tag)" class="btn btn-warning btn-sm" style="margin-right: 5px;">{{tag}}</button>
+      </ng-container>
+      
+    </div>
+  </div>

@@ -1,0 +1,67 @@
+<ng-template #empty>
+  <div style="height: 100%;" class="text-center">
+    <p style="height: 100%;">None Provided</p>
+  </div>
+</ng-template>
+
+<div class="row pt-3">
+  <div class="d-flex justify-content-center">
+    <p style="color: wheat;">(Rebuild will set your task incomplete and will assign it a new date of your choice)</p>
+  </div>
+    <div class="col-12">
+      <table class="table table-bordered table-striped table-sm">
+        <thead>
+          <tr>
+            <th><strong>Index</strong></th>
+            <th><strong>Task Name</strong></th>
+            <th><strong>Due Date</strong></th>
+            <th class="text-center"><strong>Tags</strong></th>
+            <th class="text-center">Status</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let task of allTasks.values(); let i = index">
+          <tr>
+            <td style="text-align: center;"
+            [appStatus]="{completed : task.completed, dueDate : task.dueDate}"
+            >
+              {{i+1}}
+            </td>
+            <td [appStatus]="{completed : task.completed, dueDate : task.dueDate}">
+              <div class="row text-center">
+                <div class="col-6 mt-2">
+                  {{task.name}}
+                </div>
+                <div class="col-4 text-end ">
+                  <button class="btn text-dark btn-danger" (click)="removeTask(task)">X</button>
+                </div>
+              </div>
+            </td>
+            <td [appStatus]="{completed : task.completed, dueDate : task.dueDate}">
+              <div class="d-flex justify-content-evenly">
+                <input #dueDate style="border-radius: 5px;" [valueAsDate]="task.dueDate" type="date">
+                <button class="btn btn-primary" (click)="rebuild(dueDate.value, task)">
+                  Re-Build
+                </button>
+              </div>
+            </td>
+            <td
+            [appStatus]="{completed : task.completed, dueDate : task.dueDate}" 
+            class="text-center" *ngIf="task.tags; else : empty"
+            >
+              <ng-container *ngFor="let tag of task.tags.keys()">
+                <button style="margin-right: 5px;" class="btn btn-sm rounded-btn">{{tag}}</button>
+              </ng-container>
+            </td>
+            <td class="text-center" [appStatus]="{completed : task.completed, dueDate : task.dueDate}">
+              <button *ngIf="!task.completed; else : completed" class="btn btn-success" (click)="onMarkCompleted(task)">Mark Completed</button>
+              <ng-template #completed>
+                <div class="d-flex justify-content-center mt-2">
+                  <h5>Completed ✔️</h5>
+                </div>
+              </ng-template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
